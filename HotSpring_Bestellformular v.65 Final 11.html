@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>HotSpring® Bestellformular</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--dark:#111;--gr:#F0F0F0;--blue:#D6E4F7;--border:#999}
+body{font-family:Helvetica,Arial,sans-serif;font-size:14px;color:var(--dark);background:#e0e0e0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{max-width:780px;margin:12px auto;background:#fff;padding:16px;box-shadow:0 2px 12px #0002}
+.page2{max-width:780px;margin:12px auto;background:#fff;padding:16px;box-shadow:0 2px 12px #0002}
+.hdr{display:grid;grid-template-columns:1fr 1fr;gap:8px;border-bottom:2px solid var(--dark);padding-bottom:8px;margin-bottom:8px}
+.hl-brand{font-size:22px;font-weight:900;line-height:1.1}
+.hl-sub{font-size:14px;font-weight:700;font-style:italic}
+.co-name{font-weight:700;font-size:13px;margin-top:4px}
+.co-sub{font-size:11px;line-height:1.5;margin-top:2px}
+.hr-coll{font-size:13px;font-weight:700;font-style:italic;text-align:right;line-height:1.5}
+.hr-hs{font-size:12px;font-weight:700;text-align:right;margin-top:4px}
+.hr-ep{font-size:9px;text-align:right;letter-spacing:0.5px;margin-top:1px}
+input[type=text],input[type=email],select,textarea{font-family:inherit;font-size:14px;color:var(--dark);outline:none;-webkit-appearance:none;border-radius:0}
+.fi{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.fi label{font-size:13px;white-space:nowrap;min-width:70px;font-weight:600}
+.fi input{border:none;border-bottom:1px solid #777;flex:1;font-size:14px;padding:4px 2px;background:transparent;min-height:36px}
+.addr-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px}
+@media(max-width:520px){.addr-grid{grid-template-columns:1fr}}
+.addr-box{border:1px solid var(--border);padding:6px;min-height:72px;font-size:12px}
+.addr-label{font-size:10px;color:#555;margin-bottom:4px}
+.addr-box input{width:100%;border:none;border-bottom:1px solid #ddd;font-size:13px;padding:3px 2px;margin-bottom:3px;background:transparent;min-height:32px}
+.type-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:8px;align-items:center}
+.type-item{display:flex;align-items:center;gap:6px;font-weight:700;font-size:14px}
+.type-item input{width:16px;height:16px;cursor:pointer;accent-color:var(--dark)}
+.tbl-wrap{overflow-x:auto;margin-bottom:6px}
+table.tbl{width:100%;border-collapse:collapse;min-width:500px;table-layout:fixed}
+table.tbl colgroup .c-m{width:52px}
+table.tbl colgroup .c-a{width:auto}
+table.tbl colgroup .c-e{width:110px}
+table.tbl colgroup .c-g{width:100px}
+table.tbl th{background:var(--dark);color:#fff;text-align:left;padding:5px 4px;font-size:12px;font-weight:700;border:1px solid var(--dark)}
+table.tbl th.r{text-align:right}
+table.tbl td{border:1px solid #bbb;padding:0 3px;height:28px;vertical-align:middle}
+table.tbl tr.even td{background:var(--gr)}
+table.tbl td input,table.tbl td select{width:100%;border:none;background:transparent;font-size:12px;font-family:inherit;outline:none;padding:0 2px;height:26px;color:var(--dark)}
+table.tbl td.ta-c{text-align:center}
+table.tbl td.ta-r{text-align:right}
+table.tbl td.ta-r input{text-align:right}
+.gp5w{display:flex;align-items:center;gap:2px;height:26px}
+/* Angebots-Info-Zeile */
+.ang-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-bottom:6px;
+  background:#f0f4f8;border-radius:4px;padding:6px 8px;border:1px solid #dce3ea}
+.ang-fi{display:flex;flex-direction:column;gap:2px}
+.ang-fi label{font-size:10px;font-weight:700;color:#1F4E78;text-transform:uppercase;letter-spacing:.5px}
+.ang-fi input{border:none;border-bottom:1.5px solid #1F4E78;font-size:14px;font-family:inherit;
+  padding:2px 2px;background:transparent;outline:none;font-weight:600;color:#111}
+@media(max-width:520px){.ang-row{grid-template-columns:1fr 1fr}}
+/* Rabatt + Netto/MwSt */
+.pbox-rabatt{border:.7px solid #e0a000;padding:3px 6px;background:#fffbea;margin-bottom:2px}
+.pbox-rabatt .pl{font-size:7pt;font-weight:700;color:#7a5200;margin-bottom:3px}
+.rabatt-row{display:flex;align-items:center;gap:4px;font-size:12px}
+.rabatt-inp{border:1px solid #ccc;border-radius:3px;padding:3px 4px;
+  width:56px;font-size:12px;font-family:inherit;text-align:right}
+.rabatt-sep{color:#888;font-size:11px}
+.pbox-sub{border:.7px solid #aaa;padding:2px 6px;display:flex;justify-content:space-between;
+  align-items:center;font-size:8.5pt}
+.pbox-sub input{border:none;font-size:10pt;font-weight:600;font-family:inherit;
+  text-align:right;width:90px;background:transparent;padding:0}
+/* Save-Badge */
+.save-badge{font-size:10px;color:#2E7D32;background:#e8f5e9;border-radius:3px;
+  padding:2px 7px;display:none;align-items:center;gap:4px}
+.save-badge.show{display:flex}
+/* Reset-Button */
+.btn-reset{background:#795548;color:#fff;border:none;padding:9px 20px;font-size:14px;
+  cursor:pointer;border-radius:4px;display:flex;align-items:center;gap:6px;font-family:inherit}
+.btn-reset:hover{background:#5d4037}
+/* Verkäufer-Profil im Editor */
+.ped-profil{padding:16px;font-size:13px}
+.ped-profil label{display:block;font-weight:700;margin-bottom:3px;margin-top:10px;color:#333;font-size:12px}
+.ped-profil label:first-child{margin-top:0}
+.ped-profil input{width:100%;border:1px solid #ccc;border-radius:3px;
+  padding:7px 9px;font-size:13px;font-family:inherit}
+.ped-profil input:focus{outline:none;border-color:#1F4E78}
+/* Print: neue Elemente */
+@media print{
+  .ang-row{background:#eef3f8!important;border-color:#ccd!important;padding:3px 5px;margin-bottom:4px}
+  .ang-fi label{font-size:6.5pt;color:#1F4E78}
+  .ang-fi input{font-size:9pt;border-bottom:.5px solid #1F4E78!important}
+  .pbox-rabatt{background:#fffbea!important}
+  .pbox-sub{font-size:8pt}
+  .pbox-sub input{font-size:9pt}
+  .save-badge,.btn-reset{display:none!important}
+}
+.btn-edit{background:#5C4033;color:#fff;border:none;padding:9px 20px;font-size:14px;
+  cursor:pointer;border-radius:4px;display:flex;align-items:center;gap:6px;font-family:inherit}
+.btn-edit:hover{background:#3e2723}
+/* Editor Overlay */
+#price-editor{display:none;position:fixed;inset:0;background:#0008;z-index:1000;overflow:auto}
+#price-editor.open{display:block}
+.ped-box{background:#fff;max-width:860px;margin:20px auto;border-radius:6px;overflow:hidden;box-shadow:0 4px 24px #0004}
+.ped-hdr{background:#1F4E78;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+.ped-hdr h2{font-size:16px;font-weight:700;margin:0}
+.ped-close{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;font-weight:700;line-height:1}
+.ped-body{display:grid;grid-template-columns:200px 1fr;min-height:400px}
+.ped-cats{background:#f5f5f5;border-right:1px solid #ddd;padding:8px 0}
+.ped-cat-btn{display:block;width:100%;text-align:left;padding:10px 16px;border:none;
+  background:none;cursor:pointer;font-size:13px;font-family:inherit;border-left:3px solid transparent}
+.ped-cat-btn.active{background:#e3f2fd;border-left-color:#1F4E78;font-weight:700;color:#1F4E78}
+.ped-cat-btn:hover:not(.active){background:#eeeeee}
+.ped-items{padding:16px;overflow-y:auto;max-height:500px}
+.ped-items table{width:100%;border-collapse:collapse;font-size:13px}
+.ped-items th{text-align:left;padding:6px 8px;background:#f0f0f0;font-size:12px;border-bottom:2px solid #ddd}
+.ped-items td{padding:4px 6px;border-bottom:1px solid #eee;vertical-align:middle}
+.ped-items input[type=text]{width:100%;border:1px solid #ccc;border-radius:3px;padding:4px 6px;font-size:13px;font-family:inherit}
+.ped-items input[type=number]{width:90px;border:1px solid #ccc;border-radius:3px;padding:4px 6px;font-size:13px;font-family:inherit;text-align:right}
+.ped-items input:focus{outline:none;border-color:#1F4E78}
+.ped-del{background:none;border:none;color:#c00;font-size:16px;cursor:pointer;padding:2px 6px;font-weight:700}
+.ped-del:hover{color:#f00}
+.ped-add-row{margin-top:10px;display:flex;gap:8px;align-items:center}
+.ped-add-row input[type=text]{flex:1;border:1px solid #ccc;border-radius:3px;padding:6px 8px;font-size:13px;font-family:inherit}
+.ped-add-row input[type=number]{width:100px;border:1px solid #ccc;border-radius:3px;padding:6px 8px;font-size:13px;font-family:inherit;text-align:right}
+.ped-add-row button{background:#2E7D32;color:#fff;border:none;padding:6px 14px;border-radius:3px;cursor:pointer;font-size:13px;white-space:nowrap}
+.ped-footer{padding:12px 20px;border-top:1px solid #ddd;display:flex;gap:10px;justify-content:flex-end;background:#fafafa}
+.ped-save{background:#1F4E78;color:#fff;border:none;padding:10px 22px;border-radius:4px;cursor:pointer;font-size:14px;font-weight:700;font-family:inherit}
+.ped-save:hover{background:#163d5e}
+.ped-reset{background:#eee;color:#333;border:none;padding:10px 18px;border-radius:4px;cursor:pointer;font-size:14px;font-family:inherit}
+.ped-reset:hover{background:#ddd}
+@media print{#price-editor,.btn-edit{display:none!important}}
+
+.gp5w input{flex:1;border:none;background:transparent;font-size:12px;font-family:inherit;outline:none;text-align:right;height:26px}
+.gp5w input.struck{text-decoration:line-through;color:#c00}
+.sbtn{font-size:9px;font-weight:700;background:#AA0000;color:#fff;border:none;border-radius:2px;padding:2px 4px;cursor:pointer;line-height:1;flex-shrink:0;min-height:20px}
+@media(max-width:600px){
+  table.tbl{display:none}
+  .mobile-rows{display:block}
+  .mrow{background:#fff;border:1px solid #bbb;border-radius:4px;margin-bottom:8px;padding:8px;font-size:13px}
+  .mrow.even{background:var(--gr)}
+  .mrow-hdr{font-weight:700;font-size:11px;color:#555;margin-bottom:4px}
+  .mrow select,.mrow input{width:100%;border:1px solid #bbb;border-radius:4px;padding:8px;font-size:14px;font-family:inherit;background:#fff;margin-bottom:6px;min-height:40px}
+  .mrow .mrow-nums{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+  .mrow .mrow-nums label{font-size:11px;color:#555;margin-bottom:2px;display:block}
+  .mrow .mrow-nums input{margin-bottom:0;text-align:right}
+  .gp5-mobile{display:flex;align-items:center;gap:4px}
+  .gp5-mobile input{flex:1}.gp5-mobile input.struck{text-decoration:line-through;color:#c00}
+  .gp5-mobile .sbtn{min-height:40px;font-size:11px;padding:6px 8px}
+}
+@media(min-width:601px){.mobile-rows{display:none}}
+.below{display:grid;grid-template-columns:1fr 200px;gap:8px;margin-bottom:8px}
+@media(max-width:520px){.below{grid-template-columns:1fr}}
+.del-field{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:13px}
+.del-field label{font-weight:700;white-space:nowrap;min-width:160px;font-size:12px}
+.del-field input{border:none;border-bottom:1px solid #777;flex:1;font-size:13px;padding:4px 2px;background:transparent;min-height:32px}
+.bezahl{margin-top:6px;font-size:13px;font-weight:700;line-height:1.6}
+.price-boxes{display:flex;flex-direction:column;gap:4px}
+.pbox{border:1px solid var(--dark);padding:4px 6px}
+.pbox .pl{font-size:10px;line-height:1.4}
+.pbox input{width:100%;border:none;font-size:14px;font-weight:700;font-family:inherit;outline:none;text-align:right;padding:4px 2px;background:var(--blue);min-height:32px}
+.pbox2{border:1px solid var(--dark);padding:4px 6px;font-size:10px;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.pbox3{border:1px solid var(--dark);padding:4px 6px}
+.pbox3 .pl{font-size:10px;font-weight:700;line-height:1.4}
+.pbox3 input{width:100%;border:none;font-size:14px;font-weight:700;font-family:inherit;outline:none;text-align:right;padding:4px 2px;background:var(--blue);min-height:32px}
+.legal{font-size:10px;line-height:1.5;text-align:justify;margin-bottom:8px;color:#222}
+.sonder{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.sonder label{font-weight:700;font-size:13px;white-space:nowrap}
+.sonder input{flex:1;border:none;border-bottom:1px solid #777;font-size:13px;padding:4px 2px;background:transparent;min-height:36px}
+.cb-row{display:flex;align-items:center;gap:6px;margin-bottom:8px;font-size:14px;flex-wrap:wrap}
+.cb-row input[type=checkbox]{width:18px;height:18px;flex-shrink:0;cursor:pointer;accent-color:var(--dark)}
+.hf-inp{border:none;border-bottom:1px solid #777;width:36px;font-size:13px;font-family:inherit;outline:none;text-align:center;background:transparent;padding:2px;min-height:32px}
+.agb-btn{font-size:12px;background:#1F4E78;color:#fff;border:none;padding:6px 12px;cursor:pointer;text-decoration:none;display:inline-block;border-radius:3px;margin-left:4px}
+.sig-sep{border-top:1px solid var(--dark);margin:8px 0 6px}
+.sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.sig-grid{grid-template-columns:1fr}}
+.sig-lbl{font-size:11px;color:#555;margin-bottom:4px}
+.sig-inp{width:100%;border:none;border-bottom:1px solid var(--dark);font-size:14px;font-family:inherit;outline:none;padding:4px 2px;background:transparent;margin-bottom:4px;min-height:36px}
+.sig-line{border-bottom:1px solid var(--dark);height:32px;margin-bottom:2px}
+.sig-lbl2{font-size:10px;color:#555}
+.footer{border-top:1px solid #aaa;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding-top:6px;font-size:10px;line-height:1.5;margin-top:8px}
+@media(max-width:520px){.footer{grid-template-columns:1fr 1fr}}
+.footer .fh{font-weight:700}
+.agb-title{font-size:14px;font-weight:700;text-align:center;border-bottom:2px solid var(--dark);padding-bottom:8px;margin-bottom:12px}
+.agb-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:12px;line-height:1.5}
+@media(max-width:520px){.agb-cols{grid-template-columns:1fr}}
+.agbs h3{font-size:12px;font-weight:700;margin-bottom:4px;margin-top:10px}
+.agbs h3:first-child{margin-top:0}
+.agbs ol{padding-left:16px}
+.agbs ol li{margin-bottom:4px;text-align:justify}
+.agbs p{margin-bottom:6px;text-align:justify}
+/* ── Print-Buttons (nur Bildschirm) ── */
+.print-bar{max-width:780px;margin:0 auto 0 auto;display:flex;gap:8px;justify-content:flex-end;padding:6px 0}
+.btn-print{background:#1F4E78;color:#fff;border:none;padding:9px 20px;font-size:14px;cursor:pointer;border-radius:4px;display:flex;align-items:center;gap:6px;font-family:inherit}
+.btn-print:hover{background:#163d5e}
+.btn-pdf{background:#2E7D32;color:#fff;border:none;padding:9px 20px;font-size:14px;cursor:pointer;border-radius:4px;display:flex;align-items:center;gap:6px;font-family:inherit}
+.btn-pdf:hover{background:#1b5e20}
+
+
+/* ── DIN A4 Druck ── */
+@page{size:A4 portrait;margin:0}
+@media print{
+  /* Farben erhalten */
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  /* Screen min-heights nullsetzen */
+  *,*::before,*::after{min-height:0!important}
+  input,select,textarea,button{height:auto!important;min-height:0!important}
+  .fi input,.addr-box,.addr-box input,.del-field input,
+  .pbox input,.pbox3 input,.sonder input,.hf-inp,.sig-inp{
+    height:auto!important;min-height:0!important}
+  html,body{margin:0;padding:0;background:white}
+  /* Nicht-Druck-Elemente */
+  .print-bar,.no-print,.sbtn,.agb-btn,.btn-edit,.save-badge{display:none!important}
+  .mobile-rows{display:none!important}
+  .pbox-rabatt{display:none!important}
+  .sig-pad-btns{display:none!important}
+  /* Seite 1 – JS passt zoom dynamisch an */
+  .page{
+    max-width:none;
+    margin:0 auto;
+    padding:8mm 10mm;
+    box-shadow:none;
+    box-sizing:border-box;
+    font-size:10pt;
+    line-height:1.45;
+  }
+  /* Header */
+  .hdr{padding-bottom:4px;margin-bottom:5px}
+  .hl-brand{font-size:17pt}.hl-sub{font-size:10pt}
+  .co-name{font-size:9pt}.co-sub{font-size:8pt;line-height:1.5}
+  .hr-coll{font-size:10pt}.hr-hs{font-size:9pt}.hr-ep{font-size:7pt}
+  /* Adressen */
+  .addr-grid{grid-template-columns:1fr 1fr;gap:4px;margin-bottom:5px}
+  .addr-box{border:.5px solid #999;padding:3px 4px;font-size:9pt}
+  .addr-label{font-size:7pt;margin-bottom:2px}
+  .addr-box input{font-size:9pt;border:none!important;
+    border-bottom:.3px solid #ccc!important;padding:1px 0;margin-bottom:2px;display:block;width:100%}
+  /* Kontakt */
+  .fi{margin-bottom:3px}
+  .fi label{font-size:9pt;min-width:50px}
+  .fi input{font-size:9pt;border:none!important;border-bottom:.3px solid #bbb!important;padding:1px}
+  /* Typ */
+  .type-row{margin-bottom:5px}
+  .type-item{font-size:11pt;gap:5px}
+  .type-item input[type=checkbox]{width:12px;height:12px}
+  /* Tabelle */
+  .tbl-wrap{margin-bottom:4px}
+  table.tbl{display:table!important;width:100%;border-collapse:collapse;font-size:9pt}
+  table.tbl th{background:#111!important;color:#fff!important;
+    padding:3px 4px;font-size:8.5pt;border:.5px solid #111;font-weight:700}
+  table.tbl th.r{text-align:right}
+  table.tbl td{border:.4px solid #bbb;padding:0 3px;height:8mm;vertical-align:middle}
+  table.tbl tr.even td{background:#F0F0F0!important}
+  table.tbl td input,table.tbl td select{font-size:9pt;border:none!important;
+    background:transparent!important;width:100%;padding:0 1px}
+  select{-webkit-appearance:none;appearance:none}
+  .gp5w{display:flex;align-items:center}
+  .gp5w input{flex:1;border:none!important;background:transparent!important;
+    font-size:9pt;text-align:right}
+  tr.cascade-empty td *{visibility:hidden!important}
+  .kat-sel{display:none!important}
+  .prod-sel{width:100%!important}
+  /* Unterhalb */
+  .below{grid-template-columns:1fr 52mm;gap:4mm;margin-bottom:4mm}
+  .del-field{margin-bottom:3mm}
+  .del-field label{font-size:9pt;min-width:38mm}
+  .del-field input{font-size:9pt;border:none!important;
+    border-bottom:.3px solid #bbb!important;padding:1px}
+  .bezahl{font-size:9pt;margin-top:4mm;line-height:1.6}
+  .price-boxes{display:flex;flex-direction:column;gap:2px}
+  .pbox{border:.6px solid #111;padding:2mm 3mm}
+  .pbox .pl{font-size:7pt;line-height:1.4;margin-bottom:1px}
+  .pbox input{width:100%;border:none!important;font-size:11pt;font-weight:700;
+    text-align:right;padding:1px;background:#D6E4F7!important}
+  .pbox2{border:.6px solid #111;padding:2mm 3mm;font-size:7.5pt;
+    display:flex;justify-content:space-between;align-items:center}
+  .pbox-sub{border:.4px solid #bbb;padding:1.5mm 3mm;
+    display:flex;justify-content:space-between;align-items:center;font-size:8.5pt}
+  .pbox-sub input{width:70px;border:none!important;font-size:9.5pt;
+    text-align:right;background:transparent!important}
+  .pbox3{border:.6px solid #111;padding:2mm 3mm}
+  .pbox3 .pl{font-size:7pt;font-weight:700;line-height:1.4;margin-bottom:1px}
+  .pbox3 input{width:100%;border:none!important;font-size:11pt;font-weight:700;
+    text-align:right;padding:1px;background:#D6E4F7!important}
+  /* Rechtstext */
+  .legal{font-size:6.5pt;line-height:1.4;text-align:justify;margin-bottom:3mm}
+  /* Sonder + CB */
+  .sonder{margin-bottom:3mm}
+  .sonder label{font-size:9pt}
+  .sonder input{font-size:9pt;border:none!important;
+    border-bottom:.4px solid #aaa!important;padding:1px}
+  .cb-row{font-size:9.5pt;margin-bottom:3mm}
+  .cb-row strong{font-size:9pt}
+  .cb-row input[type=checkbox]{width:12px;height:12px}
+  /* Unterschriften */
+  .sig-sep{margin:4mm 0 3mm}
+  .sig-grid{grid-template-columns:1fr 1fr;gap:10mm}
+  .sig-lbl{font-size:7pt;margin-bottom:2mm}
+  .sig-inp{font-size:9pt;border:none!important;
+    border-bottom:.5px solid #888!important;padding:1px;margin-bottom:3mm;display:block;width:100%}
+  .sig-canvas{height:28px;border:none;border-bottom:.4px solid #888}
+  .sig-lbl2{font-size:7pt}
+  /* Footer */
+  .footer{grid-template-columns:repeat(4,1fr);gap:4px;
+    border-top:.5px solid #aaa;padding-top:3mm;margin-top:3mm;
+    font-size:7pt;line-height:1.5}
+  .footer .fh{font-weight:700;font-size:7.5pt}
+  /* Seite 2: AGB unverändert */
+  .page2{page-break-before:always;box-shadow:none;margin:0 auto;
+    width:210mm;max-width:none;padding:10mm}
+}
+
+/* ── Passwort-Schutz ── */
+#pw-overlay{
+  position:fixed;inset:0;background:#1F4E78;
+  display:flex;align-items:center;justify-content:center;
+  z-index:99999;
+}
+#pw-box{
+  background:#fff;border-radius:10px;padding:40px 36px;
+  text-align:center;box-shadow:0 8px 32px #0005;
+  max-width:340px;width:90%;
+}
+#pw-box .pw-logo{font-size:22px;font-weight:900;color:#1F4E78;margin-bottom:4px}
+#pw-box .pw-sub{font-size:13px;color:#555;margin-bottom:24px}
+#pw-box input{
+  width:100%;border:1.5px solid #ccc;border-radius:6px;
+  padding:10px 14px;font-size:16px;font-family:inherit;
+  margin-bottom:12px;box-sizing:border-box;text-align:center;
+  letter-spacing:2px;
+}
+#pw-box input:focus{outline:none;border-color:#1F4E78}
+#pw-btn{
+  width:100%;background:#1F4E78;color:#fff;border:none;
+  border-radius:6px;padding:11px;font-size:15px;
+  cursor:pointer;font-family:inherit;font-weight:700;
+}
+#pw-btn:hover{background:#163d5e}
+#pw-err{color:#c00;font-size:13px;margin-top:8px;display:none}
+</style>
+</head>
+<body>
+
+<!-- ── Passwort-Schutz ── -->
+<div id="pw-overlay" style="display:flex">
+  <div id="pw-box">
+    <div class="pw-logo">HotSpring&reg;</div>
+    <div class="pw-sub">Whirlpool Bestellformular<br>WHIRLPOOL Import GmbH</div>
+    <input type="password" id="pw-inp" placeholder="Passwort" 
+           onkeydown="if(event.key==='Enter')checkPw()">
+    <button id="pw-btn" onclick="checkPw()">&#128274; Anmelden</button>
+    <div id="pw-err">&#x26A0; Falsches Passwort</div>
+  </div>
+</div>
+<!-- ── Drucken / PDF ─────────────────────────────────────── -->
+<div class="print-bar no-print">
+  <span class="save-badge" id="save-badge">&#10003; Gespeichert</span>
+  <button class="btn-reset" onclick="resetForm()" title="Neues Angebot">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+    Neu
+  </button>
+  <button class="btn-print" onclick="window.print()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    Formular drucken
+  </button>
+  <button class="btn-pdf" onclick="savePdf()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+    Als PDF speichern
+  </button>
+  <button class="btn-edit" onclick="openEditor()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    Preisliste bearbeiten
+  </button>
+</div>
+<div class="page">
+<div class="hdr">
+  <div>
+    <div class="hl-brand">HotSpring&reg;</div>
+    <div class="hl-sub">Whirlpools</div>
+    <div class="co-name">WHIRLPOOL Import GmbH</div>
+    <div class="co-sub">Vertrieb und Service<br>Telefon: 04161-50 27-0 &middot; Fax: 04161-50 27-52</div>
+  </div>
+  <div>
+    <div class="hr-coll"><em>Highlife&trade; Collection</em><br><em>Limelight&reg; Collection</em></div>
+    <div class="hr-hs">HOT SPOT&reg;</div>
+    <div class="hr-ep">ENDLESS POOLS&reg; FITNESS SYSTEMS</div>
+  </div>
+</div>
+<div class="addr-grid">
+  <div class="addr-box">
+    <div class="addr-label">WHIRLPOOL Import GmbH &middot; Carl-Zeiss-Stra&szlig;e 1 &middot; 21614 Buxtehude</div>
+    <input type="text" placeholder="Name, Stra&szlig;e, PLZ Ort">
+    <input type="text" placeholder=""><input type="text" placeholder="">
+  </div>
+  <div class="addr-box">
+    <div class="addr-label">Komm., Bauvorhaben, Lieferanschrift</div>
+    <input type="text"><input type="text"><input type="text">
+  </div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+  <div>
+    <div class="fi"><label>Tel.:</label><input type="text"></div>
+    <div class="fi"><label>E-Mail:</label><input type="email"></div>
+  </div>
+  <div><div class="fi"><label>Erstkontakt:</label><input type="text"></div></div>
+</div>
+<div class="type-row">
+  <div class="type-item"><input type="checkbox"><span>ANGEBOT</span></div>
+  <div class="type-item"><input type="checkbox"><span>AUFTRAG</span></div>
+  <div class="type-item"><input type="checkbox"><span>LIEFERSCHEIN</span></div>
+</div>
+<div class="tbl-wrap">
+<table class="tbl">
+<colgroup><col class="c-m"><col class="c-a"><col class="c-e"><col class="c-g"></colgroup>
+<thead><tr>
+  <th>Menge</th><th>Artikel</th><th class="r">Einzelpreis&nbsp;&euro;</th><th class="r">Gesamtpreis&nbsp;&euro;</th>
+</tr></thead>
+<tbody id="tbl-body"></tbody>
+</table>
+</div>
+<div class="mobile-rows" id="mobile-rows"></div>
+<div class="below">
+  <div>
+    <div class="del-field"><label>Voraussichtl. Liefertermin:</label><input type="text"></div>
+    <div class="del-field"><label>Sp&auml;tester Abnahmetermin:</label><input type="text"></div>
+    <div class="bezahl">Bezahlung:<br>20% Anzahlung bei Auftragserteilung<br>80% Restzahlung bei Lieferung</div>
+  </div>
+  <div class="price-boxes">
+    <div class="pbox">
+      <div class="pl">Gesamtpreis WP inkl.<br>der gesetzl. MwSt.</div>
+      <input type="text" id="summe_wp" readonly placeholder="0,00">
+    </div>
+    <div class="pbox-rabatt">
+      <div class="pl">Rabatt (auf Artikelpreise)</div>
+      <div class="rabatt-row">
+        <input class="rabatt-inp" type="number" id="rabatt-pct" min="0" max="100" placeholder="%" oninput="recalc()">
+        <span>%</span>
+        <span class="rabatt-sep">oder</span>
+        <input class="rabatt-inp" type="number" id="rabatt-abs" min="0" placeholder="&euro;" oninput="recalc()">
+        <span>&euro;</span>
+      </div>
+    </div>
+    <div class="pbox2" style="border-top:1px solid #aaa;margin-top:2px;padding-top:3px">
+      <span>+ Anlieferung &amp; Betriebseinweisung*<br><span style="font-size:9px">* innerhalb Deutschlands frei Bordsteinkante – nicht rabattierbar</span></span>
+      <strong>&euro;&nbsp;450,-</strong>
+    </div>
+    <div class="pbox-sub">
+      <span>Netto:</span>
+      <input type="text" id="preis-netto" readonly>
+    </div>
+    <div class="pbox-sub">
+      <span>MwSt. 19%:</span>
+      <input type="text" id="preis-mwst" readonly>
+    </div>
+    <div class="pbox3">
+      <div class="pl">Gesamtpreis inkl.<br>der gesetzl. MwSt.</div>
+      <input type="text" id="summe_gesamt" placeholder="0,00">
+    </div>
+  </div>
+</div>
+<div class="legal">Im Lieferumfang sind nicht enthalten: Kosten f&uuml;r elektrische Anschl&uuml;sse sowie Hilfspersonal, Kran und Stapler. Voraussetzung f&uuml;r die Betriebseinweisung ist ein vom Kunden ordnungsgem&auml;&szlig; ausgef&uuml;hrter elektrischer Anschluss gem&auml;&szlig; Informationsbr&ouml;schure der WHIRLPOOL Import GmbH. Die elektrischen Anschl&uuml;sse vom Haussicherungskasten bis zum Standort des Whirlpools sind grunds&auml;tzlich vom Kunden vorzunehmen und m&uuml;ssen bei Anlieferung fertiggestellt sein. Die Ware bleibt bis zur vollst&auml;ndigen Bezahlung Eigentum der Firma WHIRLPOOL Import GmbH. Mit der Unterschrift gelten die Allgemeinen Gesch&auml;ftsbedingungen als anerkannt. Erf&uuml;llungsort und Gerichtsstand ist Buxtehude.</div>
+<div class="sonder"><label>Sondervereinbarungen:</label><input type="text"></div>
+<div class="cb-row">
+  <input type="checkbox"><strong>Kunde stellt</strong>
+  <input class="hf-inp" type="text">
+  <strong>Helfer (mindestens 2) bei der Anlieferung.</strong>
+</div>
+<div class="cb-row">
+  <input type="checkbox">
+  <strong>Hiermit erkl&auml;re ich mich mit den allgemeinen Gesch&auml;ftsbedingungen einverstanden.</strong>
+  <a class="agb-btn" href="#agb-seite">AGB lesen &darr;</a>
+</div>
+<div class="sig-sep"></div>
+<div class="sig-grid">
+  <div>
+    <div class="sig-lbl">Ort/Datum</div>
+    <input type="text" class="sig-inp" id="ort-datum" placeholder="Datum">
+    <div class="sig-lbl2" style="margin-bottom:3px">Unterschrift Kunde</div>
+    <div class="sig-pad-wrap">
+      <canvas class="sig-canvas" id="sig-kunde" width="600" height="80"
+        title="Hier mit Finger oder Stift unterschreiben"></canvas>
+      <div class="sig-pad-btns">
+        <button class="sig-clear" onclick="clearSig('sig-kunde')" type="button">&#x2715; Löschen</button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="sig-lbl">Verkaufsberater</div>
+    <input type="text" class="sig-inp" placeholder="Name Verkaufsberater">
+    <div class="sig-line"></div>
+    <div class="sig-lbl2">Ware erhalten (Unterschrift)</div>
+  </div>
+</div>
+<div class="footer">
+  <div><div class="fh">Gesch&auml;ftsf&uuml;hrung:</div>Bernard Peters<br>Martin Beneke<br>Christopher Peters<br>Marvin Beneke</div>
+  <div><div class="fh">WHIRLPOOL Import GmbH</div>Carl-Zeiss-Stra&szlig;e 1<br>21614 Buxtehude<br>Tel: 04161/50 27-0<br>info@hotspring.de</div>
+  <div><div class="fh">Bankverbindung:</div>Sparkasse Harburg-Buxtehude<br>IBAN: DE08 2075 0000 0011 0034 31<br>BIC: NOLADE21HAM</div>
+  <div>HR Nr. 121430<br>Amtsgericht Tostedt<br>UST.Id.Nr. DE 114957509<br>Steuer Nr. 43/205/04002</div>
+</div>
+</div>
+
+<div class="page2" id="agb-seite">
+  <div class="agb-title">LIEFER- UND ZAHLUNGSBEDINGUNGEN F&Uuml;R PRIVATKUNDEN</div>
+  <div class="agb-cols">
+    <div class="agbs">
+      <h3>I. Allgemeines</h3><ol>
+        <li>Die nachfolgenden Liefer- und Zahlungsbedingungen gelten f&uuml;r den Verkauf von Whirlpools des Herstellers Watkins Manufacturing Corporation sowie von den entsprechenden Zubeh&ouml;rteilen, die die WHIRLPOOL Import GmbH als Generalimporteur deutschlandweit vertreibt.</li>
+        <li>Abweichungen bed&uuml;rfen der ausdr&uuml;cklichen schriftlichen Anerkennung von WHIRLPOOL Import.</li>
+        <li>Die Angebote von WHIRLPOOL Import sind freibleibend. M&uuml;ndliche Vereinbarungen bed&uuml;rfen zu ihrer Wirksamkeit der Schriftform.</li>
+      </ol>
+      <h3>II. Lieferung</h3><ol>
+        <li>Der Liefertermin richtet sich nach gesonderter Vereinbarung.</li>
+        <li>Sollte der K&auml;ufer mit einer Verbindlichkeit im R&uuml;ckstand sein, ruht die Lieferpflicht von WHIRLPOOL Import.</li>
+        <li>Falls WHIRLPOOL Import mit einer Lieferung in Verzug ger&auml;t, muss der K&auml;ufer eine angemessene Nachfrist setzen. Nach Ablauf dieser Nachfrist kann er vom Kaufvertrag zur&uuml;cktreten.</li>
+        <li>Ereignisse h&ouml;herer Gewalt berechtigen WHIRLPOOL Import, die Lieferung hinauszuschieben oder vom Vertrag zur&uuml;ckzutreten. Sonstige Anspr&uuml;che bestehen nicht.</li>
+      </ol>
+      <h3>III. Preise</h3><p>Die Preise richten sich nach der jeweils g&uuml;ltigen Preisliste und verstehen sich ab Lager. Transport- und Verpackungskosten werden nach Aufwand gesondert berechnet.</p>
+      <h3>IV. Zahlung</h3><ol>
+        <li>Die Zahlung ist bei Lieferung zu leisten, in voller H&ouml;he und ohne jeden Abzug.</li>
+        <li>Ein Zur&uuml;ckbehaltungsrecht steht dem K&auml;ufer nur insoweit zu, als der Gegenanspruch aus demselben Vertrag entstand.</li>
+        <li>Die Verzugszinsberechnung richtet sich nach den gesetzlichen Vorschriften.</li>
+      </ol>
+      <h3>V. Gefahr&uuml;bergang / Versand</h3><ol>
+        <li>WHIRLPOOL Import wird sich bem&uuml;hen, hinsichtlich Versandart und Versandweg W&uuml;nsche des K&auml;ufers zu ber&uuml;cksichtigen; dadurch bedingte Mehrkosten gehen zu Lasten des K&auml;ufers.</li>
+        <li>Der Versand der Ware erfolgt unter Ausschluss jeder Haftung, es sei denn, ein Mitarbeiter von WHIRLPOOL Import handelt grob fahrl&auml;ssig.</li>
+      </ol>
+    </div>
+    <div class="agbs">
+      <h3>VI. Eigentumsvorbehalt</h3><ol>
+        <li>Bis zur vollst&auml;ndigen Bezahlung bleiben die verkauften Waren Eigentum von WHIRLPOOL Import.</li>
+        <li>Der K&auml;ufer ist zur Weiterve&auml;u&szlig;erung nur mit der Ma&szlig;gabe berechtigt, dass die Forderung gem&auml;&szlig; nachfolgenden Bestimmungen auf WHIRLPOOL Import &uuml;bergeht.</li>
+        <li>Der Eigentumsvorbehalt erstreckt sich auch auf die durch Verbindung der Ware entstehenden Erzeugnisse zu deren vollem Wert.</li>
+        <li>Die aus dem Weiterverkauf entstehenden Forderungen tritt der K&auml;ufer schon jetzt insgesamt zur Sicherung an diese ab.</li>
+        <li>Zugriffe Dritter auf die WHIRLPOOL Import geh&ouml;renden Waren sind unverz&uuml;glich mit eingeschriebenem Brief mitzuteilen.</li>
+        <li>Die Aus&uuml;bung des Eigentumsvorbehaltes bedeutet nicht den R&uuml;cktritt vom Vertrag.</li>
+        <li>Die Waren d&uuml;rfen vor vollst&auml;ndiger Bezahlung weder an Dritte verpf&auml;ndet noch zur Sicherung &uuml;bereignet oder abgetreten werden.</li>
+        <li>&Uuml;bersteigt der Wert der Sicherheiten die Forderungen um mehr als 20%, so wird WHIRLPOOL Import auf Verlangen des K&auml;ufers insoweit Sicherheiten freigeben.</li>
+      </ol>
+      <h3>VII. Gew&auml;hrleistung und Haftung</h3><ol>
+        <li>Offensichtliche M&auml;ngel sind vom K&auml;ufer innerhalb von 10 Tagen nach Eingang der Ware bei WHIRLPOOL Import schriftlich geltend zu machen.</li>
+        <li>Eine R&uuml;cksendung ist nur mit dem Einverst&auml;ndnis von WHIRLPOOL Import zul&auml;ssig. Die Frachtkosten sind vom K&auml;ufer vorzulegen.</li>
+        <li>WHIRLPOOL Import nimmt als mangelhaft anerkannte Ware zur&uuml;ck und liefert einwandfreie Ware. Statt dessen kann auch der Minderwert ersetzt werden.</li>
+        <li>Die Haftung von WHIRLPOOL Import beschr&auml;nkt sich auf Vorsatz oder grobe Fahrl&auml;ssigkeit. Dieser Haftungsausschluss gilt nicht f&uuml;r Anspr&uuml;che aus dem Produkthaftungsgesetz.</li>
+      </ol>
+      <h3>VIII. Erf&uuml;llungsort</h3><p>Erf&uuml;llungsort ist f&uuml;r beide Vertragsteile Buxtehude.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Preislisten (Gesamtpreisliste 2026, gültig ab 01.08.2026) ────────────
+var MODELLE=[
+  ["-- bitte wählen --",0,""],
+  ["── Hot Spot® Spas ──────────────",0,""],
+  ["TX (dreieckig) – Hot Spot®",11500,"HS"],
+  ["SX – Hot Spot®",11600,"HS"],
+  ["STRIDE™ – Hot Spot®",12500,"HS"],
+  ["PROPEL™ – Hot Spot®",13100,"HS"],
+  ["RELAY™ – Hot Spot®",13800,"HS"],
+  ["RHYTHM™ – Hot Spot®",14200,"HS"],
+  ["── Limelight® Collection ───────",0,""],
+  ["BEAM™ – Limelight®",16000,"LL"],
+  ["STROBE™ – Limelight®",16100,"LL"],
+  ["FLAIR™ – Limelight®",19700,"LL"],
+  ["FLAIR™ DL – Limelight®",19700,"LL"],
+  ["FLASH™ – Limelight®",19700,"LL"],
+  ["PULSE™ – Limelight®",22500,"LL"],
+  ["PRISM™ – Limelight®",32000,"LL"],
+  ["── Highlife® Collection ────────",0,""],
+  ["JETSETTER™ – Highlife®",20500,"HL"],
+  ["JETSETTER™ LX – Highlife®",22600,"HL"],
+  ["PRODIGY™ – Highlife®",22900,"HL"],
+  ["SOVEREIGN™ – Highlife®",26100,"HL"],
+  ["VANGUARD™ – Highlife®",29800,"HL"],
+  ["ARIA™ – Highlife®",30200,"HL"],
+  ["ENVOY™ – Highlife®",31500,"HL"],
+  ["GRANDEE™ – Highlife®",33100,"HL"],
+  ["── Freeflow® Spas ──────────────",0,""],
+  ["MINI™ – Freeflow®",4900,"FF"],
+  ["AZURE™ – Freeflow®",7900,"FF"],
+  ["APTOS™ – Freeflow®",8500,"FF"],
+  ["MONTEREY™ – Freeflow®",8900,"FF"],
+  ["EXCURSION™ – Freeflow®",9100,"FF"],
+  ["── VIGOR™ Kältepool ────────────",0,""],
+  ["VIGOR™ Kältepool",9500,"KP"],
+  ["── Swim Spa RecSport™ Freizeit ─",0,""],
+  ["R200 Swim Spa – RecSport™ (366 cm)",32400,"SS"],
+  ["R220 Swim Spa – RecSport™ (366 cm)",35200,"SS"],
+  ["R500 Swim Spa – RecSport™ (457 cm)",38300,"SS"],
+  ["── Swim Spa SwimCross™ Training ─",0,""],
+  ["X500 Swim Spa – SwimCross™ (457 cm)",46700,"SS"],
+  ["X2000 Swim Spa – SwimCross™ (610 cm)",60300,"SS"],
+  ["── Swim Spa Fitness Systeme ─────",0,""],
+  ["E500 Swim Spa – Fitness (457 cm)",58000,"SS"],
+  ["E550 Swim Spa – Fitness (457 cm)",65400,"SS"],
+  ["E700 Swim Spa – Fitness (518 cm)",63600,"SS"],
+  ["E2000 Swim Spa – Fitness (610 cm)",71100,"SS"]
+];
+
+var FARBEN_MAP={
+  "":   [["-- zuerst Modell wählen --",0]],
+  "HS": [["-- bitte wählen --",0],
+    ["Havanna / Alpin Weiß",0],["Havanna / Perlweiß",0],
+    ["Havanna / Kiesel",0],["Havanna / Toskanasonne",0],
+    ["Sturmgrau / Alpin Weiß",0],["Sturmgrau / Perlweiß",0],
+    ["Sturmgrau / Kiesel",0],["Sturmgrau / Toskanasonne",0],
+    ["Mandel / Alpin Weiß",0],["Mandel / Perlweiß",0],
+    ["Mandel / Kiesel",0],["Mandel / Toskanasonne",0]],
+  "LL": [["-- bitte wählen --",0],
+    ["Wenge / Alpin Weiß",0],["Wenge / Eisgrau",0],
+    ["Wenge / Wüstensand",0],["Wenge / Platin",0],["Wenge / Toskanasonne",0],
+    ["Sandfarben / Alpin Weiß",0],["Sandfarben / Eisgrau",0],
+    ["Sandfarben / Wüstensand",0],["Sandfarben / Platin",0],["Sandfarben / Toskanasonne",0],
+    ["Grau / Alpin Weiß",0],["Grau / Eisgrau",0],
+    ["Grau / Wüstensand",0],["Grau / Platin",0],["Grau / Toskanasonne",0]],
+  "HL": [["-- bitte wählen --",0],
+    ["Blackwood / Alpin Weiß",0],["Blackwood / Eisgrau",0],["Blackwood / Platin",0],
+    ["Java / Alpin Weiß",0],["Java / Eisgrau",0],["Java / Elfenbein",0],
+    ["Java / Toskanasonne",0],["Java / Kiesel",0],
+    ["Charcoal / Alpin Weiß",0],["Charcoal / Eisgrau",0],["Charcoal / Platin",0],
+    ["Charcoal / Toskanasonne",0],["Charcoal / Kiesel",0],
+    ["Leinen / Alpin Weiß",0],["Leinen / Elfenbein",0],
+    ["Leinen / Toskanasonne",0],["Leinen / Kiesel",0],
+    ["Gebürstetes Nickel / Alpin Weiß",0],
+    ["Gebürstetes Nickel / Eisgrau",0],["Gebürstetes Nickel / Platin",0]],
+  "FF": [["-- bitte wählen --",0],
+    ["Graphit / Alpin Weiß",0],["Graphit / Kiesel",0],
+    ["Silber / Alpin Weiß",0],["Silber / Kiesel",0]],
+  "KP": [["-- bitte wählen --",0],
+    ["Wanne Alpin Weiß / Außen Mokka",0],
+    ["Wanne Alpin Weiß / Außen Grau",0]],
+  "SS": [["-- bitte wählen --",0],["Graphit",0],["Mokka",0]]
+};
+
+var ABDECKUNGEN_MAP={
+  "":   [["-- zuerst Modell wählen --",0]],
+  "HL": [["-- bitte wählen --",0],
+    ["Abdeckung Schwarz",0],["Abdeckung Grau",0],
+    ["Abdeckung Kakao",0],["Abdeckung Sturmgrau",0]],
+  "LL": [["-- bitte wählen --",0],["Abdeckung Sturmgrau",0]],
+  "HS": [["-- bitte wählen --",0],
+    ["Abdeckung Schwarz",0],["Abdeckung Grau",0],["Abdeckung Kastanienbraun",0]],
+  "FF": [["-- bitte wählen --",0],["Abdeckung Standard (inklusive)",0]],
+  "KP": [["-- bitte wählen --",0],["Isolierabdeckung (inklusive)",0]],
+  "SS": [["-- bitte wählen --",0],["Bi-Fold® Grau",0],["Bi-Fold® Mokka",0]]
+};
+
+var AUFDECKHILFEN=[["-- keine --",0],
+  ["UpRite™-Abdeckungslift",710],
+  ["CoverCradle™-Abdeckungslift",680],
+  ["CoverCradle™ II-Abdeckungslift",660],
+  ["Lift'n Glide™-Abdeckungslift",430],
+  ["Low Mount® (Freeflow: Excursion, Monterey, Azure)",350],
+  ["RX (Freeflow: Azure, Aptos, Mini, VIGOR)",435]];
+
+var ZUBEHOER=[["-- keine --",0],
+  ["── Highlife®-Treppe ab 2023 ────",0],
+  ["Highlife®-Treppe – Blackwood (84×62×38 cm)",560],
+  ["Highlife®-Treppe – Java (84×62×38 cm)",560],
+  ["Highlife®-Treppe – Charcoal (84×62×38 cm)",560],
+  ["Highlife®-Treppe – Linen (84×62×38 cm)",560],
+  ["── Everwood™ LL Treppe – Limelight ─",0],
+  ["Everwood™ LL – Espresso (81,5×55×39 cm)",710],
+  ["Everwood™ LL – Sable (81,5×55×39 cm)",710],
+  ["Everwood™ LL – Coastal Gray (81,5×55×39 cm)",710],
+  ["── Everwood™ HS Treppe – Hot Spot ──",0],
+  ["Everwood™ HS – Havana (81,5×55×39 cm)",560],
+  ["Everwood™ HS – Storm (81,5×55×39 cm)",560],
+  ["Everwood™ HS – Almond (81,5×55×39 cm)",560],
+  ["── Universal Polymer Treppe ─────────",0],
+  ["Polymer Universal – Ash (78×63×42 cm)",275],
+  ["Polymer Universal – Sable (78×63×42 cm)",275],
+  ["Polymer Universal – Teak (78×63×42 cm)",275],
+  ["Polymer Universal – Espresso (78×63×42 cm)",275],
+  ["Polymer Universal – Black (78×63×42 cm)",275],
+  ["── Freeflow Treppe ──────────────────",0],
+  ["Freeflow – Smoke (62×75×38 cm)",275],
+  ["Freeflow – Dune (62×75×38 cm)",275],
+  ["── FreshWater® ──────────────────────",0],
+  ["FreshWater® Salzsystem Starterpaket",570],
+  ["FreshWater® IQ Starterpaket",570],
+  ["FreshWater® IQ Sensor (NEU)",160],
+  ["FreshWater® Präzisions-Dosierungssystem",690],
+  ["── Sonstiges ────────────────────────",0],
+  ["Whirlpool Wi-Fi Kit Eagle II",450],
+  ["Musiksystem Highlife® ab 2012",1650],
+  ["Anlieferung & Betriebseinweisung",450]];
+
+
+var ARTIKEL_MAP={
+  "FreshWater® IQ":[
+    ["FreshWater® Salzsystem Starterpaket",570],
+    ["FreshWater® IQ Starterpaket",570],
+    ["FreshWater® IQ Sensor (NEU)",160],
+    ["FreshWater® Präzisions-Dosierungssystem (NEU)",690],
+    ["FreshWater® Ersatz-Titanzelle (3er Pack)",330],
+    ["FreshWater® Spa Spezialsalz 5 kg",49.95],
+    ["FreshWater® AG+ Silber-Ionen-Kartusche",59],
+    ["Spa Frog® Kartusche (Freeflow ab 2026)",28.90],
+    ["Salzwasser-Teststreifen 25 Stück",15.95],
+    ["Phosphat-Teststreifen 25 Stück",26.90],
+    ["Phosphat-Entferner 500 ml",12.95],
+    ["Vanishing Act™ Kalkentferner",67],
+    ["Vanishing Act™ XL Kalkentferner",92]],
+  "Pflegemittel":[
+    ["fresh CHLORIFRESH 1,0 kg",22.95],
+    ["fresh pH-SENKER 1,5 kg",9.45],
+    ["fresh pH-HEBER 1,0 kg",8.45],
+    ["fresh O2-KLAR MPS 1,0 kg",34.95],
+    ["fresh O2-KLAR-AKTIVATOR 1,0 l",29.45],
+    ["fresh ANTIKALK LIQUID 1,0 l",19.95],
+    ["Decalcit Filterreiniger 1,0 kg",14.95],
+    ["Schaum-Ex 1,0 l",28.45],
+    ["CL-Teststreifen 50 Stück",19.90],
+    ["MPS-Teststreifen 50 Stück",18.50],
+    ["Duftzusatz 250 ml",24.95],
+    ["Cover Shield Pflege + Schutz (nur Vinyl)",21.90],
+    ["Clean Screen™ Pre-Filter Aktivkohlefilter",179]],
+  "Accessoires":[
+    ["Bademantel mit HotSpring®-Logo",63],
+    ["Badetuch mit HotSpring®-Logo",29.95],
+    ["T-Shirt I'm a Hot Tubber",9.95],
+    ["Whirlpool-Ente mit HotSpring®-Logo",4.95],
+    ["Vakuum-Schmutz-Sauger",110],
+    ["Pool-Sitzkissen (befüllt, 37,5x36x9,5 cm)",25],
+    ["Einstiegshilfe Handgriff schwenkbar",250],
+    ["Schwimmtablett rund ø 44 cm",75]],
+  "Entertainment":[
+    ["Musiksystem Highlife® ab 2012",1650],
+    ["Wi-Fi Kit Eagle II (Highlife®/Limelight® ab 2024, Hot Spot® ab 2025)",450],
+    ["Wi-Fi Kit Gecko (nur Freeflow)",450]],
+  "Filter":[
+    ["Filter Tri-X® alle Highlife® (NEU 2026)",95],
+    ["Filter 100sq Gleam™",145],
+    ["Filter 75sq Prism™",121],
+    ["Filter 65sq Tri-X® alle Highlife®",120],
+    ["Filter 65sq Limelight®, Relay™, Rhythm™",107],
+    ["Filter 50sq Limelight® ab 2018",111],
+    ["Filter 30sq Highlife® vor 2014, Stride™, SX, TX, PROPEL™",60],
+    ["Filter 25sq Freeflow Mini, VIGOR™",56],
+    ["Filter 50sq Freeflow Spas®",90]],
+  "Ersatz Isolierabdeckung":[
+    ["Gleam™, Prism™",899],
+    ["Envoy™, Grandee™, Pulse™, Landmark™, Tempo™ u.a.",839],
+    ["Aria™, Flair™, Prodigy™, Relay™, Sovereign™, Vanguard™ u.a.",799],
+    ["Beam™, Jetsetter™, Stride™, SX, Azure™, VIGOR™ u.a.",759],
+    ["Mini™, TX",679]]
+};
+var DROPDOWN_DEFS=[
+  {label:"Whirlpool-Modell",    opts:MODELLE,            isTotal:false},
+  {label:"Farbe / Verkleidung", opts:FARBEN_MAP[""],     isTotal:false},
+  {label:"Abdeckung & Farbe",   opts:ABDECKUNGEN_MAP[""],isTotal:false},
+  {label:"Aufdeckhilfe",        opts:AUFDECKHILFEN,      isTotal:false},
+  {label:"Treppe / Zubehör",    opts:ZUBEHOER,           isTotal:true}
+];
+
+function fmt(n){
+  if(!n||isNaN(n)||n<=0)return "";
+  return n.toLocaleString("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function parseDE(s){return parseFloat((s||"").replace(/\./g,"").replace(",","."))||0;}
+
+function mkSel(opts){
+  const s=document.createElement("select");
+  for(const entry of opts){
+    const[l,v]=entry;
+    const col=entry[2]||"";
+    const o=document.createElement("option");
+    o.value=v; o.textContent=l; o.dataset.col=col;
+    if(l.startsWith("──")){
+      o.disabled=true;
+      o.style.cssText="color:#888;font-style:italic;font-size:11px";
+    }
+    s.appendChild(o);
+  }
+  s.onchange=recalc; return s;
+}
+function mkInp(right){
+  const i=document.createElement("input");i.type="text";
+  if(right)i.style.textAlign="right";
+  i.oninput=recalc; return i;
+}
+
+// Zeile aktualisieren (Desktop + Mobile)
+function updateRow(rowIdx,opts){
+  const row=rows[rowIdx];
+  function fillSel(s){
+    while(s.firstChild)s.removeChild(s.firstChild);
+    for(const[l,v]of opts){
+      const o=document.createElement("option");o.value=v;o.textContent=l;
+      if(l.startsWith("──"))o.disabled=true;
+      s.appendChild(o);
+    }
+  }
+  if(row&&row.isDrop){fillSel(row.sel);row.ep.value="";row.gp.value="";}
+  const mob=mobileRefs[rowIdx];
+  if(mob&&mob.sel){fillSel(mob.sel);if(mob.ep)mob.ep.value="";if(mob.gp)mob.gp.value="";}
+}
+function onModelChange(col){
+  updateRow(1,FARBEN_MAP[col]||FARBEN_MAP[""]);
+  updateRow(2,ABDECKUNGEN_MAP[col]||ABDECKUNGEN_MAP[""]);
+  recalc();
+}
+
+// Desktop Tabelle
+var tbody=document.getElementById("tbl-body");
+var rows=[];
+function addDDRowDesk(opts,isTotal,idx){
+  const tr=document.createElement("tr");
+  if(idx%2===1)tr.classList.add("even");
+  const mng=mkInp(true);mng.value="1";mng.style.textAlign="center";
+  const ep=mkInp(true);ep.style.color="#333";ep.title="Preis manuell anpassen";
+  const s=mkSel(opts);
+  let gpField,tdGp=document.createElement("td");tdGp.classList.add("ta-r");
+  if(isTotal){
+    const w=document.createElement("div");w.className="gp5w";
+    const f=document.createElement("input");f.type="text";f.readOnly=true;f.id="gp5-inp";
+    const btn=document.createElement("button");btn.className="sbtn";btn.type="button";
+    btn.textContent="S";btn.onclick=()=>f.classList.toggle("struck");
+    w.appendChild(f);w.appendChild(btn);tdGp.appendChild(w);gpField=f;
+  }else{
+    const gp=mkInp(true);gp.readOnly=true;gp.style.color="#666";
+    tdGp.appendChild(gp);gpField=gp;
+  }
+  const tdM=document.createElement("td");tdM.classList.add("ta-c");tdM.appendChild(mng);
+  const tdA=document.createElement("td");tdA.appendChild(s);
+  const tdE=document.createElement("td");tdE.classList.add("ta-r");tdE.appendChild(ep);
+  tr.appendChild(tdM);tr.appendChild(tdA);tr.appendChild(tdE);tr.appendChild(tdGp);
+  tbody.appendChild(tr);
+  return{mng,sel:s,ep,gp:gpField,isTotal,isDrop:true,isFree:false};
+}
+function addFreeRowDesk(idx){
+  const tr=document.createElement("tr");
+  if(idx%2===1)tr.classList.add("even");
+  const mng=mkInp(true);mng.value="1";mng.style.textAlign="center";
+  const art=mkInp();const ep=mkInp(true);
+  const gp=mkInp(true);gp.readOnly=true;gp.style.color="#666";
+  const tdM=document.createElement("td");tdM.classList.add("ta-c");tdM.appendChild(mng);
+  const tdA=document.createElement("td");tdA.appendChild(art);
+  const tdE=document.createElement("td");tdE.classList.add("ta-r");tdE.appendChild(ep);
+  const tdG=document.createElement("td");tdG.classList.add("ta-r");tdG.appendChild(gp);
+  tr.appendChild(tdM);tr.appendChild(tdA);tr.appendChild(tdE);tr.appendChild(tdG);
+  tbody.appendChild(tr);
+  return{mng,ep,gp,isTotal:false,isDrop:false,isFree:true};
+}
+
+// Mobile Cards
+var mobileContainer=document.getElementById("mobile-rows");
+var mobileRefs=[];
+function addMobileCard(def,idx,isDD){
+  const card=document.createElement("div");
+  card.className="mrow"+(idx%2===1?" even":"");
+  const hdr=document.createElement("div");hdr.className="mrow-hdr";
+  hdr.textContent=isDD?def.label:"Freie Position "+(idx-4);
+  card.appendChild(hdr);
+  let sel=null,artInp=null;
+  if(isDD){sel=mkSel(def.opts);card.appendChild(sel);}
+  else{artInp=mkInp();artInp.placeholder="Artikel";card.appendChild(artInp);}
+  const nums=document.createElement("div");nums.className="mrow-nums";
+  const mDiv=document.createElement("div");
+  const mLbl=document.createElement("label");mLbl.textContent="Menge";
+  const mInp=mkInp(true);mInp.value="1";
+  mDiv.appendChild(mLbl);mDiv.appendChild(mInp);
+  const eDiv=document.createElement("div");
+  const eLbl=document.createElement("label");eLbl.textContent="Einzelpreis €";
+  const eInp=mkInp(true);if(isDD){eInp.readOnly=true;eInp.style.color="#666";}
+  eDiv.appendChild(eLbl);eDiv.appendChild(eInp);
+  const gDiv=document.createElement("div");
+  const gLbl=document.createElement("label");gLbl.textContent="Gesamtpreis €";
+  let gInp;
+  if(isDD&&def.isTotal){
+    const wrap=document.createElement("div");wrap.className="gp5-mobile";
+    gInp=document.createElement("input");gInp.type="text";gInp.readOnly=true;gInp.id="gp5-mob";
+    const btn=document.createElement("button");btn.className="sbtn";btn.type="button";
+    btn.textContent="S";btn.onclick=()=>gInp.classList.toggle("struck");
+    wrap.appendChild(gInp);wrap.appendChild(btn);
+    gDiv.appendChild(gLbl);gDiv.appendChild(wrap);
+  }else{
+    gInp=mkInp(true);gInp.readOnly=true;gInp.style.color="#666";
+    gDiv.appendChild(gLbl);gDiv.appendChild(gInp);
+  }
+  nums.appendChild(mDiv);nums.appendChild(eDiv);nums.appendChild(gDiv);
+  card.appendChild(nums);
+  mobileContainer.appendChild(card);
+  return{mng:mInp,sel,ep:eInp,gp:gInp,isTotal:isDD&&def.isTotal,isDrop:isDD,isFree:!isDD};
+}
+
+
+// ── Kaskaden-Zeilen 6-9: Kategorie → Produkt ─────────────────────────────
+function addCascadeRowDesk(rowIdx){
+  const tr=document.createElement("tr");
+  if(rowIdx%2===1)tr.classList.add("even");
+  const mng=mkInp(true);mng.value="1";mng.style.textAlign="center";
+  const ep=mkInp(true);ep.style.color="#333";ep.title="Preis manuell anpassen";
+  const gp=mkInp(true);gp.readOnly=true;gp.style.color="#666";
+  const tdA=document.createElement("td");
+  const wrap=document.createElement("div");
+  wrap.style.cssText="display:flex;gap:0;align-items:stretch;height:26px";
+  const katSel=document.createElement("select");
+  katSel.className="kat-sel";
+  katSel.style.cssText="width:33%;font-size:10px;border:none;border-right:1px solid #ccc;background:#fafafa;cursor:pointer;color:#555;padding:0 2px";
+  const k0=document.createElement("option");k0.value="";k0.textContent="\u2015 Kategorie";katSel.appendChild(k0);
+  for(const kat of Object.keys(ARTIKEL_MAP)){const o=document.createElement("option");o.value=kat;o.textContent=kat;katSel.appendChild(o);}
+  const prodSel=document.createElement("select");
+  prodSel.className="prod-sel";
+  prodSel.style.cssText="flex:1;font-size:11px;border:none;background:transparent;cursor:pointer;padding:0 2px";
+  const p0=document.createElement("option");p0.value=0;p0.textContent="\u2015 Produkt w\u00e4hlen \u2015";prodSel.appendChild(p0);
+  katSel.onchange=function(){
+    while(prodSel.firstChild)prodSel.removeChild(prodSel.firstChild);
+    const p0=document.createElement("option");p0.value=0;p0.textContent="\u2015 Produkt w\u00e4hlen \u2015";prodSel.appendChild(p0);
+    for(const[l,v]of(ARTIKEL_MAP[this.value]||[])){const o=document.createElement("option");o.value=v;o.textContent=l;prodSel.appendChild(o);}
+    ep.value="";gp.value="";recalc();
+  };
+  prodSel.onchange=function(){const p=parseFloat(this.value)||0;ep.value=p>0?fmt(p):"";recalc();};
+  wrap.appendChild(katSel);wrap.appendChild(prodSel);tdA.appendChild(wrap);
+  const tdM=document.createElement("td");tdM.classList.add("ta-c");tdM.appendChild(mng);
+  const tdE=document.createElement("td");tdE.classList.add("ta-r");tdE.appendChild(ep);
+  const tdG=document.createElement("td");tdG.classList.add("ta-r");tdG.appendChild(gp);
+  tr.appendChild(tdM);tr.appendChild(tdA);tr.appendChild(tdE);tr.appendChild(tdG);
+  tbody.appendChild(tr);
+  return{mng,ep,gp,isTotal:false,isDrop:false,isFree:false,isCascade:true,tr};
+}
+function addCascadeMobile(idx){
+  const card=document.createElement("div");
+  card.className="mrow"+(idx%2===1?" even":"");
+  const hdr=document.createElement("div");hdr.className="mrow-hdr";
+  hdr.textContent="Position "+(idx-4);card.appendChild(hdr);
+  const katSel=document.createElement("select");
+  katSel.style.cssText="width:100%;padding:8px;border:1px solid #bbb;border-radius:4px;font-size:14px;margin-bottom:6px;min-height:40px;background:#fff";
+  const k0=document.createElement("option");k0.value="";k0.textContent="\u2015 Kategorie w\u00e4hlen \u2015";katSel.appendChild(k0);
+  for(const kat of Object.keys(ARTIKEL_MAP)){const o=document.createElement("option");o.value=kat;o.textContent=kat;katSel.appendChild(o);}
+  const prodSel=document.createElement("select");
+  prodSel.style.cssText="width:100%;padding:8px;border:1px solid #bbb;border-radius:4px;font-size:14px;margin-bottom:6px;min-height:40px;background:#fff";
+  const p0=document.createElement("option");p0.value=0;p0.textContent="\u2015 Produkt w\u00e4hlen \u2015";prodSel.appendChild(p0);
+  card.appendChild(katSel);card.appendChild(prodSel);
+  const nums=document.createElement("div");nums.className="mrow-nums";
+  const mDiv=document.createElement("div");
+  const mLbl=document.createElement("label");mLbl.textContent="Menge";
+  const mInp=mkInp(true);mInp.value="1";
+  mDiv.appendChild(mLbl);mDiv.appendChild(mInp);
+  const eDiv=document.createElement("div");
+  const eLbl=document.createElement("label");eLbl.textContent="Einzelpreis \u20ac";
+  const eInp=mkInp(true);eInp.readOnly=true;eInp.style.color="#666";
+  eDiv.appendChild(eLbl);eDiv.appendChild(eInp);
+  const gDiv=document.createElement("div");
+  const gLbl=document.createElement("label");gLbl.textContent="Gesamtpreis \u20ac";
+  const gInp=mkInp(true);gInp.readOnly=true;gInp.style.color="#666";
+  gDiv.appendChild(gLbl);gDiv.appendChild(gInp);
+  nums.appendChild(mDiv);nums.appendChild(eDiv);nums.appendChild(gDiv);
+  card.appendChild(nums);mobileContainer.appendChild(card);
+  katSel.onchange=function(){
+    while(prodSel.firstChild)prodSel.removeChild(prodSel.firstChild);
+    const p0=document.createElement("option");p0.value=0;p0.textContent="\u2015 Produkt w\u00e4hlen \u2015";prodSel.appendChild(p0);
+    for(const[l,v]of(ARTIKEL_MAP[this.value]||[])){const o=document.createElement("option");o.value=v;o.textContent=l;prodSel.appendChild(o);}
+    eInp.value="";gInp.value="";recalc();
+  };
+  prodSel.onchange=function(){const p=parseFloat(this.value)||0;eInp.value=p>0?fmt(p):"";recalc();};
+  return{mng:mInp,ep:eInp,gp:gInp,isTotal:false,isDrop:false,isFree:false,isCascade:true};
+}
+// Aufbau
+for(let i=0;i<DROPDOWN_DEFS.length;i++){
+  rows.push(addDDRowDesk(DROPDOWN_DEFS[i].opts,DROPDOWN_DEFS[i].isTotal,i));
+  mobileRefs.push(addMobileCard(DROPDOWN_DEFS[i],i,true));
+}
+// Zeilen 6-9: Kategorie → Produkt
+for(let i=0;i<4;i++){
+  rows.push(addCascadeRowDesk(i+5));
+  mobileRefs.push(addCascadeMobile(i+5));
+}
+// Zeile 10: Freie Eingabe
+rows.push(addFreeRowDesk(9));
+mobileRefs.push(addMobileCard(null,9,false));
+
+// Event-Listener: Modell-Änderung → Farbe + Abdeckung filtern
+function bindModel(sel){
+  sel.addEventListener("change",function(){
+    const opt=this.options[this.selectedIndex];
+    onModelChange(opt?opt.dataset.col||"":"");
+  });
+}
+if(rows[0]&&rows[0].sel)bindModel(rows[0].sel);
+if(mobileRefs[0]&&mobileRefs[0].sel)bindModel(mobileRefs[0].sel);
+
+// Berechnung
+function recalc(){
+  let total=0;
+  for(let i=0;i<rows.length;i++){
+    const d=rows[i],mob=mobileRefs[i];
+    const mng=parseFloat(d.mng.value)||1;
+    let p=0;
+    if(d.isDrop){
+      p=parseFloat(d.sel.value)||0;
+      d.ep.value=p>0?fmt(p):"";
+      if(mob&&mob.ep)mob.ep.value=d.ep.value;
+    }else{
+      p=parseDE(d.ep.value);
+      if(mob&&mob.ep){const mp=parseDE(mob.ep.value);if(mp)p=mp;}
+    }
+    const sub=p*mng;
+    // Cascade-Zeilen: wenn kein Preis → für Druck ausblenden
+    if(d.isCascade&&d.tr){
+      if(p>0) d.tr.classList.remove('cascade-empty');
+      else    d.tr.classList.add('cascade-empty');
+    }
+    if(!d.isTotal){
+      // Dropdown-Zeilen 1-4: kein eigener GP-Wert anzeigen,
+      // nur freie/Kaskaden-Zeilen zeigen ihren eigenen Gesamtpreis
+      if(d.isFree){
+        d.gp.value=sub>0?fmt(sub):"";
+        if(mob&&mob.gp)mob.gp.value=d.gp.value;
+      }else{
+        d.gp.value="";
+        if(mob&&mob.gp)mob.gp.value="";
+      }
+      total+=sub;
+    }else total+=sub;
+  }
+  // Rabatt (auf Artikelsumme, ohne Anlieferung)
+  var rPct=document.getElementById("rabatt-pct");
+  var rAbs=document.getElementById("rabatt-abs");
+  var rabattPct=rPct?parseFloat(rPct.value)||0:0;
+  var rabattAbs=rAbs?parseFloat(rAbs.value)||0:0;
+  var rabatt=0;
+  if(rabattAbs>0) rabatt=rabattAbs;
+  else if(rabattPct>0) rabatt=total*rabattPct/100;
+  var subtotalNachRabatt=Math.max(0,total-rabatt);
+
+  // gp_5 zeigt Artikelsumme OHNE Anlieferung
+  var fv=subtotalNachRabatt>0?fmt(subtotalNachRabatt):"";
+  const g=document.getElementById("gp5-inp");
+  const gm=document.getElementById("gp5-mob");
+  if(g){const s=g.classList.contains("struck");g.value=fv;if(s)g.classList.add("struck");}
+  if(gm){const s=gm.classList.contains("struck");gm.value=fv;if(s)gm.classList.add("struck");}
+
+  // Gesamtpreis-Boxen: + 450€ Anlieferung
+  const totalMitAnlieferung=subtotalNachRabatt+450;
+  const netto=totalMitAnlieferung/1.19;
+  const mwst=totalMitAnlieferung-netto;
+  // summe_wp = Artikelsumme nach Rabatt (ohne Anlieferung)
+  const sw=document.getElementById("summe_wp");
+  if(sw)sw.value=subtotalNachRabatt>0?fmt(subtotalNachRabatt):"";
+
+  const nn=document.getElementById("preis-netto");
+  const nm=document.getElementById("preis-mwst");
+  const sg=document.getElementById("summe_gesamt");
+  if(nn)nn.value=netto>0?fmt(netto):"";
+  if(nm)nm.value=mwst>0?fmt(mwst):"";
+  if(sg)sg.value=totalMitAnlieferung>0?fmt(totalMitAnlieferung):"";
+
+  // Auto-Speichern
+  autoSaveForm();
+}
+recalc();
+
+
+
+// ── Preislisten-Editor ──────────────────────────────────────────────────────
+// Arbeits-Kopien der Preislisten (werden aus localStorage geladen)
+var edMODELLE, edAUFDECKHILFEN, edZUBEHOER, edARTIKEL_MAP;
+var currentCat = null;
+
+var SECTIONS = [
+  {key:"profil", label:"&#128100; Mein Profil"},
+  {key:"modelle",     label:"Whirlpool-Modelle"},
+  {key:"aufdeckhilfen",label:"Aufdeckhilfen"},
+  {key:"zubehoer",    label:"Treppe / Zubehör"},
+  {key:"fw_iq",       label:"FreshWater® IQ"},
+  {key:"pflegemittel",label:"Pflegemittel"},
+  {key:"accessoires", label:"Accessoires"},
+  {key:"entertainment",label:"Entertainment"},
+  {key:"filter",      label:"Filter"},
+  {key:"isolierung",  label:"Ersatz Isolierabdeckung"},
+];
+
+function initEdData(){
+  try{
+    const saved = localStorage.getItem("hs_preisliste");
+    if(saved){
+      const d=JSON.parse(saved);
+      // Nur laden wenn Struktur stimmt (Array von Arrays)
+      edMODELLE=(d.modelle&&Array.isArray(d.modelle))?d.modelle.map(e=>Array.isArray(e)?e.slice():[]):deepCopy(MODELLE);
+      edAUFDECKHILFEN=(d.aufdeckhilfen&&Array.isArray(d.aufdeckhilfen))?d.aufdeckhilfen.map(e=>Array.isArray(e)?e.slice():[]):deepCopy(AUFDECKHILFEN);
+      edZUBEHOER=(d.zubehoer&&Array.isArray(d.zubehoer))?d.zubehoer.map(e=>Array.isArray(e)?e.slice():[]):deepCopy(ZUBEHOER);
+      edARTIKEL_MAP=d.artikel_map?deepCopyMap(d.artikel_map):deepCopyMap(ARTIKEL_MAP);
+    }else{
+      edMODELLE=deepCopy(MODELLE);
+      edAUFDECKHILFEN=deepCopy(AUFDECKHILFEN);
+      edZUBEHOER=deepCopy(ZUBEHOER);
+      edARTIKEL_MAP=deepCopyMap(ARTIKEL_MAP);
+    }
+  }catch(e){
+    console.error("initEdData Fehler:",e);
+    edMODELLE=deepCopy(MODELLE);
+    edAUFDECKHILFEN=deepCopy(AUFDECKHILFEN);
+    edZUBEHOER=deepCopy(ZUBEHOER);
+    edARTIKEL_MAP=deepCopyMap(ARTIKEL_MAP);
+  }
+}
+function deepCopy(arr){return arr.map(e=>e.slice());}
+function deepCopyMap(m){const r={};for(const k of Object.keys(m))r[k]=m[k].map(e=>e.slice());return r;}
+
+function getEdSection(key){
+  if(key==="profil")return null;  // special handling
+  if(key==="modelle")return edMODELLE;
+  if(key==="aufdeckhilfen")return edAUFDECKHILFEN;
+  if(key==="zubehoer")return edZUBEHOER;
+  const mapKeys={"fw_iq":"FreshWater® IQ","pflegemittel":"Pflegemittel",
+    "accessoires":"Accessoires","entertainment":"Entertainment",
+    "filter":"Filter","isolierung":"Ersatz Isolierabdeckung"};
+  return edARTIKEL_MAP[mapKeys[key]]||[];
+}
+function setEdSection(key,arr){
+  if(key==="modelle"){edMODELLE=arr;return;}
+  if(key==="aufdeckhilfen"){edAUFDECKHILFEN=arr;return;}
+  if(key==="zubehoer"){edZUBEHOER=arr;return;}
+  const mapKeys={"fw_iq":"FreshWater® IQ","pflegemittel":"Pflegemittel",
+    "accessoires":"Accessoires","entertainment":"Entertainment",
+    "filter":"Filter","isolierung":"Ersatz Isolierabdeckung"};
+  edARTIKEL_MAP[mapKeys[key]]=arr;
+}
+
+function openEditor(){
+  try{
+    initEdData();
+    buildCatList();
+    selectCat(SECTIONS[0].key);
+    document.getElementById("price-editor").classList.add("open");
+  }catch(e){
+    console.error("Editor-Fehler:",e);
+    // Bei Fehler: gespeicherte Preisliste löschen und nochmal versuchen
+    localStorage.removeItem("hs_preisliste");
+    try{
+      initEdData();
+      buildCatList();
+      selectCat(SECTIONS[0].key);
+      document.getElementById("price-editor").classList.add("open");
+    }catch(e2){
+      alert("Editor konnte nicht geöffnet werden: "+e2.message);
+    }
+  }
+}
+function closeEditor(){document.getElementById("price-editor").classList.remove("open");}
+
+function buildCatList(){
+  const cats=document.getElementById("ped-cats");cats.innerHTML="";
+  SECTIONS.forEach(s=>{
+    const btn=document.createElement("button");
+    btn.className="ped-cat-btn"+(currentCat===s.key?" active":"");
+    btn.textContent=s.label;btn.onclick=()=>selectCat(s.key);
+    cats.appendChild(btn);
+  });
+}
+function selectCat(key){
+  currentCat=key;
+  buildCatList();
+  const items=document.getElementById("ped-items");
+  items.innerHTML="";
+  if(key==="profil"){
+    const p=document.createElement("div");p.className="ped-profil";
+    const profil=JSON.parse(localStorage.getItem("hs_profil")||"{}");
+    ["name","telefon","email","firma"].forEach(function(f){
+      const lbl=document.createElement("label");
+      lbl.textContent={name:"Name",telefon:"Telefon",email:"E-Mail",firma:"Firma"}[f];
+      const inp=document.createElement("input");inp.type="text";
+      inp.value=profil[f]||"";inp.placeholder=lbl.textContent;
+      inp.dataset.field=f;
+      p.appendChild(lbl);p.appendChild(inp);
+    });
+    items.appendChild(p);
+    return;
+  }
+  const arr=getEdSection(key);
+  const isMain=(key==="modelle"||key==="aufdeckhilfen"||key==="zubehoer");
+
+  const tbl=document.createElement("table");
+  const thead=document.createElement("thead");
+  thead.innerHTML="<tr><th>Artikelbezeichnung</th><th style='text-align:right'>Preis €</th><th></th></tr>";
+  tbl.appendChild(thead);
+  const tbody=document.createElement("tbody");
+
+  arr.forEach((row,i)=>{
+    if(!row||!Array.isArray(row)||!row[0]) return; // Leere/ungültige Zeilen überspringen
+    if(row[0].startsWith("──")||row[0].startsWith("——")) return; // Trenner
+    if(isMain && row[0].startsWith("─")) return; // Gruppen-Trenner
+    const tr=document.createElement("tr");
+    const tdN=document.createElement("td");
+    const inN=document.createElement("input");inN.type="text";inN.value=row[0];
+    inN.onchange=function(){arr[i][0]=this.value;};
+    tdN.appendChild(inN);
+    const tdP=document.createElement("td");
+    const inP=document.createElement("input");inP.type="number";inP.step="0.01";inP.min="0";
+    inP.value=row[1]||0;inP.onchange=function(){arr[i][1]=parseFloat(this.value)||0;};
+    tdP.appendChild(inP);
+    const tdDel=document.createElement("td");
+    const btnD=document.createElement("button");btnD.className="ped-del";btnD.textContent="×";
+    btnD.onclick=function(){arr.splice(i,1);selectCat(key);};
+    tdDel.appendChild(btnD);
+    tr.appendChild(tdN);tr.appendChild(tdP);tr.appendChild(tdDel);
+    tbody.appendChild(tr);
+  });
+  tbl.appendChild(tbody);
+  items.appendChild(tbl);
+
+  // Neuen Artikel hinzufügen
+  const addRow=document.createElement("div");addRow.className="ped-add-row";
+  const newName=document.createElement("input");newName.type="text";newName.placeholder="Neue Artikelbezeichnung";
+  const newPrice=document.createElement("input");newPrice.type="number";newPrice.step="0.01";newPrice.min="0";newPrice.placeholder="Preis";
+  const btnAdd=document.createElement("button");btnAdd.textContent="+ Hinzufügen";
+  btnAdd.onclick=function(){
+    const n=newName.value.trim();const p=parseFloat(newPrice.value)||0;
+    if(!n)return;
+    arr.push([n,p]);
+    newName.value="";newPrice.value="";
+    selectCat(key);
+  };
+  addRow.appendChild(newName);addRow.appendChild(newPrice);addRow.appendChild(btnAdd);
+  items.appendChild(addRow);
+}
+
+function savePrices(){
+  // Profil speichern
+  const profilInputs=document.querySelectorAll(".ped-profil input");
+  if(profilInputs.length){
+    const p={};
+    profilInputs.forEach(function(i){p[i.dataset.field]=i.value;});
+    localStorage.setItem("hs_profil",JSON.stringify(p));
+    applyProfil();
+  }
+  localStorage.setItem("hs_preisliste",JSON.stringify({
+    modelle:edMODELLE,aufdeckhilfen:edAUFDECKHILFEN,
+    zubehoer:edZUBEHOER,artikel_map:edARTIKEL_MAP
+  }));
+  applyEdData();
+  closeEditor();
+}
+function resetPrices(){
+  if(!confirm("Alle Preise auf Standardwerte zurücksetzen?"))return;
+  localStorage.removeItem("hs_preisliste");
+  location.reload();
+}
+function applyEdData(){
+  // Dropdowns neu befüllen
+  rebuildSel(rows[0]&&rows[0].sel, edMODELLE);
+  rebuildSel(rows[3]&&rows[3].sel, edAUFDECKHILFEN);
+  rebuildSel(rows[4]&&rows[4].sel, edZUBEHOER);
+  // ARTIKEL_MAP aktualisieren
+  Object.keys(edARTIKEL_MAP).forEach(k=>{ARTIKEL_MAP[k]=edARTIKEL_MAP[k];});
+  recalc();
+}
+function rebuildSel(sel,arr){
+  if(!sel||!arr)return;
+  const cur=sel.value;
+  while(sel.firstChild)sel.removeChild(sel.firstChild);
+  arr.forEach(function(entry){
+    const[l,v,col]=entry;
+    const o=document.createElement("option");o.value=v;o.textContent=l;
+    if(col!==undefined)o.dataset.col=col;
+    if(l.startsWith("──")||l.startsWith("—")){o.disabled=true;o.style.color="#888";}
+    sel.appendChild(o);
+  });
+  sel.value=cur;
+}
+
+// Beim Laden: gespeicherte Preise anwenden
+(function loadOnStart(){
+  const saved=localStorage.getItem("hs_preisliste");
+  if(!saved)return;
+  const d=JSON.parse(saved);
+  if(d.modelle)d.modelle.forEach((e,i)=>{if(MODELLE[i])MODELLE[i]=e;else MODELLE.push(e);});
+  if(d.aufdeckhilfen)d.aufdeckhilfen.forEach((e,i)=>{if(AUFDECKHILFEN[i])AUFDECKHILFEN[i]=e;else AUFDECKHILFEN.push(e);});
+  if(d.zubehoer)d.zubehoer.forEach((e,i)=>{if(ZUBEHOER[i])ZUBEHOER[i]=e;else ZUBEHOER.push(e);});
+  if(d.artikel_map)Object.keys(d.artikel_map).forEach(k=>{ARTIKEL_MAP[k]=d.artikel_map[k];});
+})();
+
+
+
+
+// ── Angebotsnummer ───────────────────────────────────────────────────────
+function nextAngebotNr(){
+  let n=parseInt(localStorage.getItem("hs_ang_nr")||"999")+1;
+  localStorage.setItem("hs_ang_nr",n);
+  return "A-"+n;
+}
+function initAngebot(){
+  const nr=document.getElementById("ang-nr");
+  const dat=document.getElementById("ang-datum");
+  const glt=document.getElementById("ang-gueltig");
+  const vk=document.getElementById("ang-vk");
+  if(nr&&!nr.value){nr.value=nextAngebotNr();}
+  if(dat&&!dat.value){
+    dat.value=new Date().toLocaleDateString("de-DE");
+  }
+  if(glt&&!glt.value){
+    const d=new Date();d.setDate(d.getDate()+30);
+    glt.value=d.toLocaleDateString("de-DE");
+  }
+  // Verkäufer aus Profil
+  applyProfil();
+}
+function applyProfil(){
+  const p=JSON.parse(localStorage.getItem("hs_profil")||"{}");
+  const vkField=document.getElementById("ang-vk");
+  const sigVk=document.querySelector(".sig-inp");
+  if(vkField&&!vkField.value&&p.name)vkField.value=p.name;
+  if(sigVk&&!sigVk.value&&p.name)sigVk.value=p.name;
+}
+
+// ── Formular speichern/laden ──────────────────────────────────────────────
+var saveTimer=null;
+function autoSaveForm(){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(function(){
+    const data={};
+    document.querySelectorAll("input[type=text],input[type=email],input[type=number]").forEach(function(i){
+      if(i.id)data[i.id]=i.value;
+    });
+    // Dropdowns speichern
+    document.querySelectorAll("select").forEach(function(s,idx){
+      if(s.id)data["sel_"+s.id]=s.value;
+    });
+    localStorage.setItem("hs_form_state",JSON.stringify(data));
+    const badge=document.getElementById("save-badge");
+    if(badge){badge.classList.add("show");setTimeout(function(){badge.classList.remove("show");},2000);}
+  },800);
+}
+function loadFormState(){
+  const saved=localStorage.getItem("hs_form_state");
+  if(!saved)return;
+  const data=JSON.parse(saved);
+  Object.keys(data).forEach(function(k){
+    const el=document.getElementById(k);
+    if(el)el.value=data[k];
+  });
+}
+
+// ── Formular zurücksetzen ────────────────────────────────────────────────
+function resetForm(){
+  if(!confirm("Neues Angebot erstellen? Alle Eingaben werden gel\u00f6scht."))return;
+  localStorage.removeItem("hs_form_state");
+  // Felder leeren
+  document.querySelectorAll("input[type=text],input[type=email],input[type=number]").forEach(function(i){
+    if(!["ang-nr","ang-datum","ang-gueltig","ang-vk"].includes(i.id))i.value="";
+  });
+  document.querySelectorAll("input[type=checkbox]").forEach(function(c){c.checked=false;});
+  // Dropdowns zurück
+  document.querySelectorAll("select").forEach(function(s){s.selectedIndex=0;});
+  // Neue Angebotsnummer + Datum
+  const nr=document.getElementById("ang-nr");
+  const dat=document.getElementById("ang-datum");
+  const glt=document.getElementById("ang-gueltig");
+  if(nr)nr.value=nextAngebotNr();
+  if(dat)dat.value=new Date().toLocaleDateString("de-DE");
+  if(glt){const d=new Date();d.setDate(d.getDate()+30);glt.value=d.toLocaleDateString("de-DE");}
+  // Rabatt zurücksetzen
+  const rp=document.getElementById("rabatt-pct");
+  const ra=document.getElementById("rabatt-abs");
+  if(rp)rp.value="";if(ra)ra.value="";
+  recalc();
+}
+
+// ── Initialisierung ──────────────────────────────────────────────────────
+(function init(){
+  loadFormState();
+  initAngebot();
+  // Ort/Datum mit heutigem Datum vorbelegen
+  const ortDatum=document.getElementById("ort-datum");
+  if(ortDatum){
+    ortDatum.value=new Date().toLocaleDateString("de-DE");
+  }
+  // Alle Inputs: Auto-Save bei Änderung
+  document.addEventListener("input",autoSaveForm);
+  document.addEventListener("change",autoSaveForm);
+})();
+// ── E-Mail senden ─────────────────────────────────────────────────────────
+function getVal(sel){ return (document.querySelector(sel)||{}).value||""; }
+function getAllInputs(selector){ return Array.from(document.querySelectorAll(selector)).map(i=>i.value||"").filter(v=>v); }
+
+// Als PDF speichern: Browser-Druckdialog öffnen (Ziel: "Als PDF speichern")
+function savePdf(){
+  // Kurzen Hinweis zeigen, dann drucken
+  const tip = document.createElement("div");
+  tip.style.cssText = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#1F4E78;color:#fff;padding:16px 24px;border-radius:8px;font-size:15px;z-index:9999;text-align:center;line-height:1.6;max-width:320px;box-shadow:0 4px 20px #0005";
+  tip.innerHTML = "<strong>PDF speichern:</strong><br>Im Druckdialog als Ziel<br><em>&bdquo;Als PDF speichern&ldquo;</em><br>wählen &rarr; Speichern.<br><br><small style='opacity:0.8'>Das PDF können Sie dann per<br>E-Mail versenden.</small>";
+  document.body.appendChild(tip);
+  setTimeout(()=>{document.body.removeChild(tip);window.print();},1800);
+}
+
+// ── Digitales Unterschriften-Pad ─────────────────────────────────────────
+function initSigPad(id){
+  var canvas=document.getElementById(id);
+  if(!canvas)return;
+  var ctx=canvas.getContext("2d");
+  var drawing=false;
+  var lastX=0,lastY=0;
+
+  function getPos(e){
+    var r=canvas.getBoundingClientRect();
+    var scaleX=canvas.width/r.width;
+    var scaleY=canvas.height/r.height;
+    if(e.touches){
+      return{
+        x:(e.touches[0].clientX-r.left)*scaleX,
+        y:(e.touches[0].clientY-r.top)*scaleY
+      };
+    }
+    return{x:(e.clientX-r.left)*scaleX,y:(e.clientY-r.top)*scaleY};
+  }
+
+  function start(e){
+    e.preventDefault();
+    drawing=true;
+    var p=getPos(e);
+    lastX=p.x;lastY=p.y;
+    ctx.beginPath();
+    ctx.arc(lastX,lastY,1,0,Math.PI*2);
+    ctx.fillStyle="#111";
+    ctx.fill();
+    canvas.classList.add("signed");
+  }
+  function move(e){
+    if(!drawing)return;
+    e.preventDefault();
+    var p=getPos(e);
+    ctx.beginPath();
+    ctx.moveTo(lastX,lastY);
+    ctx.lineTo(p.x,p.y);
+    ctx.strokeStyle="#111";
+    ctx.lineWidth=1.8;
+    ctx.lineCap="round";
+    ctx.lineJoin="round";
+    ctx.stroke();
+    lastX=p.x;lastY=p.y;
+  }
+  function stop(e){drawing=false;}
+
+  canvas.addEventListener("mousedown",start);
+  canvas.addEventListener("mousemove",move);
+  canvas.addEventListener("mouseup",stop);
+  canvas.addEventListener("mouseleave",stop);
+  canvas.addEventListener("touchstart",start,{passive:false});
+  canvas.addEventListener("touchmove",move,{passive:false});
+  canvas.addEventListener("touchend",stop);
+
+  // Gespeicherte Unterschrift laden
+  var saved=localStorage.getItem("sig_"+id);
+  if(saved){
+    var img=new Image();
+    img.onload=function(){ctx.drawImage(img,0,0);canvas.classList.add("signed");};
+    img.src=saved;
+  }
+
+  // Beim Speichern Unterschrift sichern
+  canvas.addEventListener("mouseup",function(){saveSig(id);});
+  canvas.addEventListener("touchend",function(){saveSig(id);});
+}
+
+function saveSig(id){
+  var canvas=document.getElementById(id);
+  if(!canvas)return;
+  localStorage.setItem("sig_"+id,canvas.toDataURL());
+}
+
+function clearSig(id){
+  var canvas=document.getElementById(id);
+  if(!canvas)return;
+  var ctx=canvas.getContext("2d");
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  canvas.classList.remove("signed");
+  localStorage.removeItem("sig_"+id);
+}
+
+// Pads initialisieren
+initSigPad("sig-kunde");
+
+
+// ── Druck: Seite dynamisch auf A4 skalieren ─────────────────────────────
+(function(){
+  function scaleToA4(){
+    var page=document.querySelector('.page');
+    if(!page)return;
+    // Zoom zurücksetzen
+    page.style.zoom='';
+    page.style.width='';
+    // Höhe und Breite in Print-Mode messen
+    var h=page.offsetHeight;
+    var w=page.offsetWidth;
+    if(!h||!w)return;
+    // A4 = 297mm × 210mm → bei @page margin:0 komplett nutzbar
+    // In CSS-Pixel (96dpi): 297mm=1122px, 210mm=794px
+    var a4h=297*3.7795;
+    var a4w=210*3.7795;
+    // Skalierung: so groß wie möglich, aber nicht größer als A4
+    var scale=Math.min(a4h/h, a4w/w);
+    scale=Math.min(scale,1.2);  // max 20% vergrößern
+    scale=Math.max(scale,0.4);  // min 40% verkleinern
+    // Breite anpassen damit A4-Breite ausgenutzt wird
+    page.style.width=Math.round(a4w/scale)+'px';
+    page.style.zoom=scale;
+  }
+  function unscale(){
+    var page=document.querySelector('.page');
+    if(page){page.style.zoom='';page.style.width='';}
+  }
+  window.addEventListener('beforeprint',scaleToA4);
+  window.addEventListener('afterprint',unscale);
+  if(window.matchMedia){
+    try{
+      window.matchMedia('print').addEventListener('change',function(m){
+        if(m.matches)scaleToA4();else unscale();
+      });
+    }catch(e){}
+  }
+})();
+
+// ── Passwort-Schutz ──────────────────────────────────────────────────────
+var PW_HASH = "dc810dc77947f34d44633dd334c6a799212dc91f7b8beae8c95314085e9ea97e";
+var hs_auth = false;  // Immer gesperrt beim Start
+
+function sha256(str){
+  var buf = new TextEncoder().encode(str);
+  return crypto.subtle.digest('SHA-256', buf).then(function(hash){
+    return Array.from(new Uint8Array(hash))
+      .map(function(b){return b.toString(16).padStart(2,'0');})
+      .join('');
+  });
+}
+
+function checkPw(){
+  var inp = document.getElementById('pw-inp');
+  if(!inp)return;
+  sha256(inp.value).then(function(hash){
+    if(hash === PW_HASH){
+      hs_auth = true;
+      var ov = document.getElementById('pw-overlay');
+      if(ov)ov.style.display='none';
+    } else {
+      var err = document.getElementById('pw-err');
+      if(err)err.style.display='block';
+      inp.value='';
+      inp.focus();
+      if(err)setTimeout(function(){err.style.display='none';}, 2500);
+    }
+  });
+}
+
+// Overlay immer anzeigen beim Laden, Fokus auf Eingabe
+window.addEventListener('DOMContentLoaded', function(){
+  var ov = document.getElementById('pw-overlay');
+  if(ov) ov.style.display='flex';
+  setTimeout(function(){
+    var inp = document.getElementById('pw-inp');
+    if(inp) inp.focus();
+  }, 200);
+});
+
+</script>
+
+<!-- ── Preislisten-Editor ──────────────────────────────────── -->
+<div id="price-editor">
+  <div class="ped-box">
+    <div class="ped-hdr">
+      <h2>&#9998; Preisliste bearbeiten</h2>
+      <button class="ped-close" onclick="closeEditor()">&#x2715;</button>
+    </div>
+    <div class="ped-body">
+      <div class="ped-cats" id="ped-cats"></div>
+      <div class="ped-items" id="ped-items"></div>
+    </div>
+    <div class="ped-footer">
+      <button class="ped-reset" onclick="resetPrices()">Standardpreise wiederherstellen</button>
+      <button class="ped-save" onclick="savePrices()">&#10003; Speichern &amp; Schlie&szlig;en</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
